@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 Flask==3.0.2
 gunicorn==21.2.0
 python-dotenv==1.0.0
+=======
+Flask==3.0.2
+gunicorn==21.2.0
+python-dotenv==1.0.0
+>>>>>>> f08eb7274c734f9c01a017e537b35edeba2ba9f6
