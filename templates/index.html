@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sleep Tracker</title>
+  <style>
+    body {
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #111;
+      color: #fff;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: #28a745;
+      color: white;
+    }
+    button.stop {
+      background-color: #dc3545;
+    }
+    h1 {
+      font-size: 2em;
+    }
+  </style>
+</head>  <!-- ❌ You had <body> inside <head>, which is invalid HTML -->
+<body>
+  <h1>Sleep Tracker 😴</h1>
+  <!-- ❌ 'oneclick' should be 'onclick' -->
+  <button id="sleepBtn" onclick="toggleSleep()">Start Sleeping</button>
+  <h2 id="message"></h2>
+
+  <script>
+    let sleeping = false;
+
+    async function toggleSleep() {
+      // ❌ 'docment' → 'document'
+      const btn = document.getElementById('sleepBtn');
+      const msg = document.getElementById('message');
+
+      if (!sleeping) {
+        // ❌ 'fetcg' → 'fetch'
+        // ❌ remove space after 'POST '
+        const res = await fetch('/start', { method: 'POST' });
+        const data = await res.json();
+        // ❌ 'date.start_time' → 'data.start_time'
+        msg.textContent = `Started sleeping at ${data.start_time}`;
+        btn.textContent = "Woke Up!";
+        // ❌ 'ClassList' → 'classList'
+        // ❌ 'tur' → 'true'
+        btn.classList.add('stop');
+        sleeping = true;
+      } else {
+        const res = await fetch('/stop', { method: 'POST' });
+        const data = await res.json();
+        // ❌ Use backticks for template strings
+        msg.textContent = `${data.message} ${data.hours} hours.`;
+        btn.textContent = "Start Sleeping";
+        btn.classList.remove('stop');
+        sleeping = false;
+      }
+    }
+
+    window.addEventListener("beforeunload", async () => {
+      if (sleeping) {
+        // ❌ 'methods' → 'method'
+        await fetch('/stop', { method: 'POST' });
+      }
+    });
+  </script>
+</body>
+</html>
